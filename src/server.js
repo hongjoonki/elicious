@@ -1,33 +1,23 @@
-require("dotenv").config(); // env 파일을 읽어온다.
+import "./env";
 import { GraphQLServer } from "graphql-yoga"; // npm install graphql-yoga
 import logger from "morgan"; // 로깅전용 모듈 임포트
 import schema from "./schema";
+import "./passport";
+import { authenticateJwt } from "./passport";
 
 // PORT에 관한 변수를 env파일에서 가져온다.
 const PORT = process.env.PORT || 4000;
 
-/* 이 작업을 schma.js파일을 임포트하여 자동화시켯음
-// type에 관한 정의
-const typeDefs = `
-    type Query {
-        hello: String!
-    }
-`;
-
-// resolver에 관한 정의
-const resolvers = {
-    Query: {
-        hello: () => "Hi"
-    }
-};
-*/
-
 // Server 생성
-const server = new GraphQLServer({ schema });
+const server = new GraphQLServer({
+    schema,
+    context: ({ request }) => ({ request })
+});
 
 server.express.use(logger("dev"));
+server.express.use(authenticateJwt);
 
 // Server 실행
 server.start({ port: PORT }, () =>
-    console.log(`Server running on http://localhost:${PORT}`)
+    console.log(`✅ Server running on http://localhost:${PORT}`)
 );
