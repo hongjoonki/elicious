@@ -4,7 +4,7 @@ import { ROOM_FRAGMENT } from "../../../fragments";
 
 export default {
     Query : {
-        seeRooms: async(_,__,request)=>{
+        seeRooms: async(_, __, { request })=>{
             isAuthenticated(request);
             const {user} = request;
             return prisma.rooms({
