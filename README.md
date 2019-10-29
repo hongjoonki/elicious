@@ -1,7 +1,7 @@
 # Elicious
 
 Instagram clone with Express + Prisma + React and React Native
-
+ // Back-end part of ellicious applications
 ## User Stories
 
 - [X] Create account
